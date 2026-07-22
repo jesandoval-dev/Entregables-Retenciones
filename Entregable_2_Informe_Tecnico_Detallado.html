@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informe Técnico Detallado — Módulo de Retenciones sobre Anticipos | Opportunity International Nicaragua</title>
+<style>
+  :root{
+    --oi-teal:#00A7A5; --oi-teal-dark:#00807E; --oi-magenta:#E5087E; --oi-orange:#F58220;
+    --oi-purple:#3A2A50; --ink:#2B2740; --ink-soft:#5C5873; --line:#E4E2EC; --bg:#FBFBFD;
+    --teal-tint:#E6F6F6; --magenta-tint:#FDE9F3; --orange-tint:#FEF1E3;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Open Sans","Segoe UI",-apple-system,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:15px}
+  .brandbar{height:6px;background:linear-gradient(90deg,var(--oi-orange) 0%,var(--oi-orange) 25%,var(--oi-magenta) 25%,var(--oi-magenta) 60%,var(--oi-teal) 60%,var(--oi-teal) 100%)}
+  header{background:var(--oi-purple);color:#fff;padding:44px 8%}
+  header .doc-tag{display:inline-block;background:var(--oi-magenta);color:#fff;font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:18px}
+  header h1{font-size:30px;font-weight:700;line-height:1.25;max-width:860px}
+  header p.sub{margin-top:12px;color:#CFC8DE;font-size:15px;max-width:780px}
+  header .meta{margin-top:26px;display:flex;flex-wrap:wrap;gap:34px;font-size:13px;color:#B9B0CC}
+  header .meta b{display:block;color:#fff;font-size:14px;font-weight:600}
+  main{padding:48px 8% 72px;max-width:1160px;margin:0 auto}
+  h2{color:var(--oi-purple);font-size:21px;margin:52px 0 10px;border-bottom:3px solid var(--oi-teal);padding-bottom:8px}
+  h2:first-of-type{margin-top:0}
+  h3{color:var(--oi-teal-dark);font-size:16px;margin:24px 0 8px}
+  p{margin:10px 0}
+  .lead{font-size:16px;color:var(--ink-soft)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(58,42,80,.06)}
+  th{background:var(--oi-purple);color:#fff;text-align:left;padding:11px 14px;font-weight:600;font-size:13px}
+  td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:nth-child(even) td{background:#FAF9FC}
+  code{background:var(--teal-tint);color:var(--oi-teal-dark);padding:2px 7px;border-radius:5px;font-family:Consolas,Menlo,monospace;font-size:13px}
+  ul,ol{margin:8px 0 8px 24px}
+  li{margin:6px 0}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px 28px;margin:16px 0;box-shadow:0 1px 3px rgba(58,42,80,.05)}
+  .note{border-left:4px solid var(--oi-orange);background:var(--orange-tint);padding:14px 18px;border-radius:0 10px 10px 0;margin:16px 0;font-size:14px}
+  .ok{border-left:4px solid var(--oi-teal);background:var(--teal-tint);padding:14px 18px;border-radius:0 10px 10px 0;margin:16px 0;font-size:14px}
+  .warn{border-left:4px solid var(--oi-magenta);background:var(--magenta-tint);padding:14px 18px;border-radius:0 10px 10px 0;margin:16px 0;font-size:14px}
+  .flow{display:flex;flex-wrap:wrap;gap:0;align-items:stretch;margin:18px 0}
+  .flow .box{background:#fff;border:2px solid var(--oi-teal);border-radius:10px;padding:14px 16px;flex:1;min-width:170px;text-align:center;font-size:13.5px}
+  .flow .box b{display:block;color:var(--oi-purple);margin-bottom:4px;font-size:14px}
+  .flow .arr{display:flex;align-items:center;justify-content:center;padding:0 10px;color:var(--oi-magenta);font-size:22px;font-weight:800}
+  .shield{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:16px 0}
+  .shield .s{background:#fff;border:1px solid var(--line);border-top:5px solid var(--oi-magenta);border-radius:10px;padding:18px 20px}
+  .shield .s:nth-child(2){border-top-color:var(--oi-orange)}
+  .shield .s:nth-child(3){border-top-color:var(--oi-teal)}
+  .shield .s b{color:var(--oi-purple);display:block;margin-bottom:6px;font-size:14.5px}
+  .shield .s p{font-size:13.5px;color:var(--ink-soft);margin:0}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:18px 0}
+  .kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;text-align:center}
+  .kpi .v{font-size:26px;font-weight:800;color:var(--oi-teal-dark)}
+  .kpi .l{font-size:12.5px;color:var(--ink-soft);margin-top:4px}
+  .tag-ok{display:inline-block;background:var(--teal-tint);color:var(--oi-teal-dark);font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:12px}
+  footer{background:var(--oi-purple);color:#B9B0CC;text-align:center;padding:26px;font-size:12.5px;margin-top:40px}
+  footer b{color:#fff}
+  @media print{ header{padding:28px 6%} main{padding:24px 6%} .card,table,.kpi,.shield .s{box-shadow:none} h2{page-break-after:avoid} }
+</style>
+</head>
+<body>
+<div class="brandbar"></div>
+<header>
+  <span class="doc-tag">Entregable 2 · Informe Técnico Detallado</span>
+  <h1>Automatización de Retenciones Fiscales sobre Aplicaciones de Anticipos a Proveedores</h1>
+  <p class="sub">Diseño, arquitectura, controles de integridad y evidencia de pruebas de la solución desarrollada sobre Oracle NetSuite para el cumplimiento de retenciones IR y de Alcaldía en Nicaragua.</p>
+  <div class="meta">
+    <div><b>Opportunity International Nicaragua</b>Organización</div>
+    <div><b>NetSuite Sandbox (SB1) · SuiteScript 2.1</b>Entorno</div>
+    <div><b>Julio 2026</b>Fecha</div>
+    <div><b>Jefferson Sandoval — Gestor de Proyectos</b>Facilitador</div>
+  </div>
+</header>
+<main>
+
+  <h2>1 · Generalidades y contexto de negocio</h2>
+  <p class="lead">La organización opera con una considerable cantidad proveedores registrados, con un flujo intensivo de <b>pagos anticipados</b> (anticipos) a productores y proveedores de materia prima. La legislación nicaragüense obliga a practicar retenciones en la fuente (IR 2%, 3%, 10%, 12% y Alcaldía 1%) al momento de efectuar pagos.</p>
+  <p>NetSuite incorpora un motor de retenciones nativo que opera correctamente sobre los <b>pagos de facturas</b>, pero <b>no actúa sobre las aplicaciones de pagos anticipados</b> (Vendor Prepayment Application). Esto creaba una brecha de cumplimiento: la porción de una factura cancelada mediante anticipo escapaba de la retención automática, obligando a registros manuales propensos a error u omisión.</p>
+  <p>El criterio contable definido por la Jefatura de Contabilidad es: <i>"a las retenciones les aplicamos parcial en la aplicación del anticipo y el complemento en el pago de la factura"</i>. La solución implementa exactamente ese modelo:</p>
+  <div class="flow">
+    <div class="box"><b>Anticipo aplicado</b>Retención generada por el módulo desarrollado (Crédito de Factura automático)</div>
+    <div class="arr">+</div>
+    <div class="box"><b>Pago del saldo</b>Retención generada por el motor nativo de NetSuite</div>
+    <div class="arr">=</div>
+    <div class="box"><b>Factura completa</b>Retención íntegra sobre el 100% del valor, cada porción causada al momento de su pago</div>
+  </div>
+
+  <h2>2 · Arquitectura de la solución</h2>
+  <div class="card">
+    <table>
+      <tr><th>Capa</th><th>Componente</th><th>Responsabilidad</th></tr>
+      <tr><td><b>Datos maestros</b></td><td>Registro personalizado <code>customrecord_wh_tipo</code> ("Tipo de Retención NI") con tasa y cuenta contable</td><td>Catálogo único de retenciones. Contabilidad lo administra sin intervención de TI: crear un tipo nuevo o cambiar una tasa no requiere tocar código.</td></tr>
+      <tr><td><b>Captura</b></td><td>Subficha "Retenciones" en la Aplicación de Pago Anticipado: checkbox <code>custbody_wh_aplica</code>, selectores <code>custbody_wh_tipo1/2/3</code> y monto estimado <code>custbody_wh_preview</code></td><td>El usuario decide por transacción si aplica retención y qué tipos (hasta 3 combinables, p. ej. IR 2% + Alcaldía 1%). No se modificó el maestro de proveedores.</td></tr>
+      <tr><td><b>Validación (cliente)</b></td><td>Client Script <code>cs_retencion_anticipo.js</code></td><td>Habilita/deshabilita campos, bloquea guardados incompletos y calcula el estimado en vivo.</td></tr>
+      <tr><td><b>Procesamiento (servidor)</b></td><td>User Event Script <code>ue_retencion_anticipo_v4.js</code> (afterSubmit / CREATE)</td><td>Genera el Crédito de Factura de retención con una línea por tipo, aplicado a las mismas facturas del anticipo.</td></tr>
+      <tr><td><b>Reportería</b></td><td>Reporte existente "CS - Auxiliar de Retenciones"</td><td>Los créditos generados se integran automáticamente al auxiliar por cuenta, con memo trazable.</td></tr>
+    </table>
+  </div>
+  <div class="ok"><b>Decisión de diseño relevante:</b> se descartó configurar la retención en el registro del proveedor (multiples registros a mantener) en favor del modelo por transacción con catálogo centralizado. Esto elimina el mantenimiento masivo de datos y concentra el control fiscal en cinco registros de catálogo.</div>
+
+  <h2>3 · Lógica del procesamiento (User Event Script)</h2>
+  <div class="card">
+    <ol>
+      <li><b>Disparo controlado:</b> se ejecuta únicamente en la <b>creación</b> de la aplicación (evento afterSubmit / CREATE). Las ediciones posteriores no regeneran ni alteran retenciones ya emitidas.</li>
+      <li><b>Lectura de la decisión del usuario:</b> checkbox y tipos seleccionados (se eliminan duplicados si el usuario repite un tipo).</li>
+      <li><b>Resolución del catálogo:</b> por cada tipo se obtienen tasa y cuenta; los tipos mal configurados se omiten y se registran como error para revisión.</li>
+      <li><b>Cálculo por factura y por tipo:</b> sobre el monto aplicado de cada factura (sublista <code>bill</code> del registro), con redondeo a 2 decimales por línea y total consistente igual a la suma exacta de las líneas. Parámetros opcionales permiten calcular sobre base sin IVA (<code>monto ÷ 1.15</code>).</li>
+      <li><b>Emisión del Crédito de Factura:</b> un solo documento con una línea de gasto por tipo de retención —cada una contra su cuenta de pasivo—, heredando fecha, fecha de vencimiento, moneda, subsidiaria y clasificación (departamento, clase, ubicación) desde la aplicación o, como respaldo, desde la primera factura aplicada.</li>
+      <li><b>Aplicación automática:</b> el crédito queda aplicado a las mismas facturas del anticipo por el monto retenido de cada una.</li>
+    </ol>
+    <h3>Asiento contable resultante</h3>
+    <table>
+      <tr><th>Cuenta</th><th>Débito</th><th>Crédito</th></tr>
+      <tr><td>2100 · Proveedores (Cuentas por Pagar)</td><td>Monto retenido</td><td>—</td></tr>
+      <tr><td>2200-10-XXX · Impuestos y Retenciones por Pagar (una línea por tipo)</td><td>—</td><td>Monto retenido</td></tr>
+    </table>
+    <p>El pasivo con el proveedor disminuye y nace el pasivo fiscal con la DGI/Alcaldía — el mismo patrón contable que utiliza el motor nativo de NetSuite en los pagos, lo que garantiza homogeneidad en el Auxiliar de Retenciones.</p>
+  </div>
+
+  <h2>4 · Integridad y seguridad de los registros</h2>
+
+  <h3>4.1 · Prevención de duplicidad (triple capa)</h3>
+  <p>El riesgo más crítico de un generador automático de documentos contables es la emisión doble. Se implementaron tres barreras independientes:</p>
+  <div class="shield">
+    <div class="s"><b>Capa 1 · Disparo único</b><p>El script solo actúa en el evento de creación. Guardar de nuevo, editar o reabrir la transacción no vuelve a ejecutar la generación.</p></div>
+    <div class="s"><b>Capa 2 · Verificación previa</b><p>Antes de crear, se busca si ya existe un crédito con el identificador externo <code>WHT_PREPAYAPP_&lt;id&gt;</code> de esa aplicación. Si existe, el proceso termina y lo deja asentado en el log.</p></div>
+    <div class="s"><b>Capa 3 · Candado atómico</b><p>El identificador externo es único a nivel de base de datos. Si dos procesos concurrentes superaran la capa 2 en el mismo instante, NetSuite rechaza el segundo guardado y el script lo registra como duplicado evitado — no como error.</p></div>
+  </div>
+  <p>Este diseño es seguro en escenarios <b>multiusuario</b>: cada aplicación genera su propio identificador, por lo que usuarios distintos trabajando en paralelo nunca colisionan entre sí.</p>
+
+  <h3>4.2 · Validación de entrada (Client Script)</h3>
+  <ul>
+    <li>Los selectores de retención permanecen <b>deshabilitados</b> hasta que se marca "Aplicar Retención"; al desmarcar, se limpian automáticamente — imposible dejar datos huérfanos.</li>
+    <li>El guardado se <b>bloquea</b> si la casilla está marcada sin tipo seleccionado, o sin facturas aplicadas con monto — no pueden existir transacciones "en blanco" o incompletas.</li>
+    <li>El campo "Retención Estimada" es de <b>solo lectura</b> (deshabilitado a nivel de definición del campo): ningún usuario puede manipularlo.</li>
+  </ul>
+
+  <h3>4.3 · Inmutabilidad y trazabilidad</h3>
+  <ul>
+    <li><b>Inmutabilidad:</b> el crédito emitido no se recalcula ante modificaciones posteriores de la aplicación o la factura. Es una decisión deliberada: una retención ya causada (y potencialmente declarada o certificada al proveedor) no debe mutar en silencio. Las correcciones siguen un procedimiento explícito y auditable (ver 6).</li>
+    <li><b>Trazabilidad:</b> cada crédito lleva memo descriptivo ("Retención (IR 3% Productos Agrícolas 3%) s/ aplicación de anticipo #9"), identificador externo vinculado a la aplicación de origen, y cada ejecución del script queda en el log con resultado y motivo (generada / sin retención / duplicado evitado / error).</li>
+    <li><b>Resiliencia:</b> todo el proceso corre dentro de manejo de errores: un fallo del script <b>nunca bloquea</b> la operación del usuario; el error queda registrado para corrección manual.</li>
+  </ul>
+
+  <h2>5 · Evidencia de pruebas (Sandbox)</h2>
+  <table>
+    <tr><th>Caso</th><th>Datos</th><th>Resultado esperado</th><th>Resultado obtenido</th><th></th></tr>
+    <tr><td>Retención simple</td><td>C$1,800 aplicados · tasa 1.75%</td><td>Crédito C$31.50</td><td>Vendor Credit 2962238 por C$31.50, aplicado a la factura</td><td><span class="tag-ok">OK</span></td></tr>
+    <tr><td>Multi-retención</td><td>C$1,500 aplicados · IR 2% + Alcaldía 1%</td><td>C$30.00 a 2200-10-001 y C$15.00 a 2200-10-007</td><td>Un crédito, dos líneas, cuentas correctas</td><td><span class="tag-ok">OK</span></td></tr>
+    <tr><td>Catálogo</td><td>C$2,000 aplicados · IR 3% Agrícolas</td><td>Crédito C$60.00 a 2200-10-003</td><td>C$60.00 — estimado en pantalla coincidió con el emitido</td><td><span class="tag-ok">OK</span></td></tr>
+    <tr><td>Sin retención</td><td>Casilla desmarcada</td><td>No genera documento</td><td>Sin documento; log "Sin retención"</td><td><span class="tag-ok">OK</span></td></tr>
+    <tr><td>Anti-duplicado</td><td>Re-guardado de aplicación existente</td><td>No genera segundo crédito</td><td>Sin duplicados; crédito original íntegro</td><td><span class="tag-ok">OK</span></td></tr>
+    <tr><td>Validación UI</td><td>Casilla marcada sin tipo</td><td>Bloqueo con mensaje</td><td>Guardado impedido con alerta descriptiva</td><td><span class="tag-ok">OK</span></td></tr>
+    <tr><td>Reportería</td><td>Auxiliar de Retenciones</td><td>Créditos integrados por cuenta</td><td>Créditos visibles con memo y RUC del proveedor</td><td><span class="tag-ok">OK</span></td></tr>
+    <tr><td>Campos obligatorios</td><td>Cuenta con Depto./Fecha venc. obligatorios</td><td>Herencia automática</td><td>Clasificación heredada de la aplicación o factura</td><td><span class="tag-ok">OK</span></td></tr>
+  </table>
+
+  <h2>6 · Procedimientos operativos y riesgos residuales</h2>
+  <div class="card">
+    <h3>Corrección de una aplicación con retención emitida</h3>
+    <ol>
+      <li>Eliminar el Crédito de Factura de retención.</li>
+      <li>Eliminar la aplicación del anticipo.</li>
+      <li>Corregir la factura u origen del error.</li>
+      <li>Recrear la aplicación → el módulo regenera la retención con los montos correctos.</li>
+    </ol>
+    <div class="warn"><b>Riesgo residual identificado:</b> si un usuario edita los montos de una aplicación ya guardada sin seguir el procedimiento, la retención emitida queda desalineada. Mitigación recomendada: documentar la regla en el manual del proceso y restringir el permiso de edición de aplicaciones a roles de supervisión. Se descartó el recálculo automático por los riesgos que implica modificar documentos posiblemente declarados o en períodos cerrados.</div>
+    <h3>Decisión pendiente de Contabilidad</h3>
+    <p>Definir la <b>base de cálculo</b>: actualmente la retención se calcula sobre el monto bruto aplicado. El motor nativo de pagos descuenta primero el IVA (15%). El módulo ya soporta ambos criterios mediante el parámetro "Base sin IVA" — activar el parámetro y sincronizar la constante del Client Script si se opta por la base sin IVA.</p>
+  </div>
+
+  <h2>7 · Estado y ruta a producción</h2>
+  <div class="kpis">
+    <div class="kpi"><div class="v">8/8</div><div class="l">Casos de prueba superados</div></div>
+    <div class="kpi"><div class="v">2</div><div class="l">Scripts (servidor + cliente)</div></div>
+    <div class="kpi"><div class="v">5</div><div class="l">Tipos de retención en catálogo</div></div>
+    <div class="kpi"><div class="v">0</div><div class="l">Cambios al maestro de proveedores</div></div>
+  </div>
+  <ol>
+    <li>Confirmación de base de cálculo (bruta vs. sin IVA) por Contabilidad.</li>
+    <li>Publicación de ambos despliegues (estado "Publicado"), definición de audiencia por rol y nivel de log en Auditoría.</li>
+    <li>Piloto con usuarios reales en Sandbox.</li>
+    <li>Migración a Producción (réplica manual guiada o SuiteCloud Development Framework).</li>
+  </ol>
+
+</main>
+<footer><b>Opportunity International Nicaragua</b> · Gerencia de Finanzas · Informe Técnico — Módulo de Retenciones sobre Anticipos · Julio 2026</footer>
+</body>
+</html>

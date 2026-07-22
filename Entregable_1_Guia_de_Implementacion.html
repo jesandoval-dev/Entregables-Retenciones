@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Implementación — Módulo de Retenciones sobre Anticipos | Opportunity International Nicaragua</title>
+<style>
+  :root{
+    --oi-teal:#00A7A5;
+    --oi-teal-dark:#00807E;
+    --oi-magenta:#E5087E;
+    --oi-orange:#F58220;
+    --oi-purple:#3A2A50;
+    --ink:#2B2740;
+    --ink-soft:#5C5873;
+    --line:#E4E2EC;
+    --bg:#FBFBFD;
+    --card:#FFFFFF;
+    --teal-tint:#E6F6F6;
+    --magenta-tint:#FDE9F3;
+    --orange-tint:#FEF1E3;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Open Sans","Segoe UI",-apple-system,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:15px}
+  .brandbar{height:6px;background:linear-gradient(90deg,var(--oi-orange) 0%,var(--oi-orange) 25%,var(--oi-magenta) 25%,var(--oi-magenta) 60%,var(--oi-teal) 60%,var(--oi-teal) 100%)}
+  header{background:var(--oi-purple);color:#fff;padding:44px 8%}
+  header .doc-tag{display:inline-block;background:var(--oi-teal);color:#fff;font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:18px}
+  header h1{font-size:30px;font-weight:700;line-height:1.25;max-width:820px}
+  header p.sub{margin-top:12px;color:#CFC8DE;font-size:15px;max-width:760px}
+  header .meta{margin-top:26px;display:flex;flex-wrap:wrap;gap:34px;font-size:13px;color:#B9B0CC}
+  header .meta b{display:block;color:#fff;font-size:14px;font-weight:600}
+  main{padding:48px 8% 72px;max-width:1160px;margin:0 auto}
+  h2{color:var(--oi-purple);font-size:21px;margin:52px 0 6px;padding-top:10px;display:flex;align-items:center;gap:12px}
+  h2:first-of-type{margin-top:0}
+  h2 .n{background:var(--oi-magenta);color:#fff;min-width:34px;height:34px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0}
+  h3{color:var(--oi-teal-dark);font-size:16px;margin:26px 0 8px}
+  p{margin:10px 0;color:var(--ink)}
+  .lead{font-size:16px;color:var(--ink-soft);margin-bottom:8px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px 28px;margin:16px 0;box-shadow:0 1px 3px rgba(58,42,80,.05)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(58,42,80,.06)}
+  th{background:var(--oi-purple);color:#fff;text-align:left;padding:11px 14px;font-weight:600;font-size:13px}
+  td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr:nth-child(even) td{background:#FAF9FC}
+  code{background:var(--teal-tint);color:var(--oi-teal-dark);padding:2px 7px;border-radius:5px;font-family:Consolas,Menlo,monospace;font-size:13px}
+  .path{background:var(--oi-purple);color:#EDE9F5;padding:9px 16px;border-radius:8px;font-family:Consolas,Menlo,monospace;font-size:13px;display:block;margin:10px 0}
+  ol.steps{margin:12px 0 12px 0;padding-left:0;list-style:none;counter-reset:st}
+  ol.steps>li{counter-increment:st;position:relative;padding:14px 18px 14px 58px;background:#fff;border:1px solid var(--line);border-radius:10px;margin:10px 0}
+  ol.steps>li::before{content:counter(st);position:absolute;left:16px;top:14px;background:var(--oi-teal);color:#fff;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+  ul{margin:8px 0 8px 22px}
+  li{margin:5px 0}
+  .note{border-left:4px solid var(--oi-orange);background:var(--orange-tint);padding:14px 18px;border-radius:0 10px 10px 0;margin:16px 0;font-size:14px}
+  .note b{color:#B35A00}
+  .ok{border-left:4px solid var(--oi-teal);background:var(--teal-tint);padding:14px 18px;border-radius:0 10px 10px 0;margin:16px 0;font-size:14px}
+  .warn{border-left:4px solid var(--oi-magenta);background:var(--magenta-tint);padding:14px 18px;border-radius:0 10px 10px 0;margin:16px 0;font-size:14px}
+  .check li{list-style:none;position:relative;padding-left:30px;margin:8px 0}
+  .check li::before{content:"✓";position:absolute;left:0;top:0;color:var(--oi-teal);font-weight:800;font-size:16px}
+  footer{background:var(--oi-purple);color:#B9B0CC;text-align:center;padding:26px;font-size:12.5px;margin-top:40px}
+  footer b{color:#fff}
+  @media print{ header{padding:28px 6%} main{padding:24px 6%} .card,ol.steps>li,table{box-shadow:none} h2{page-break-after:avoid} }
+</style>
+</head>
+<body>
+<div class="brandbar"></div>
+<header>
+  <span class="doc-tag">Entregable 1 · Guía de Implementación</span>
+  <h1>Módulo de Retenciones sobre Aplicaciones de Anticipos a Proveedores</h1>
+  <p class="sub">Manual paso a paso para replicar la solución en cualquier cuenta de NetSuite (Sandbox o Producción), con la descripción funcional de cada componente y script.</p>
+  <div class="meta">
+    <div><b>Opportunity International Nicaragua</b>Organización</div>
+    <div><b>Oracle NetSuite · SuiteScript 2.1</b>Plataforma</div>
+    <div><b>Julio 2026</b>Fecha</div>
+    <div><b>Jefferson Sandoval — Gestor de Proyectos</b>Facilitador de implementación</div>
+  </div>
+</header>
+<main>
+
+  <p class="lead">La solución automatiza la generación de retenciones fiscales (IR y Alcaldía) al momento de aplicar pagos anticipados a facturas de proveedores. Consta de <b>un catálogo configurable, seis campos personalizados, una subficha y dos scripts</b>. Siguiendo esta guía en orden, el módulo queda operativo en aproximadamente 60–90 minutos.</p>
+
+  <h2><span class="n">0</span>Inventario de componentes</h2>
+  <table>
+    <tr><th>Componente</th><th>ID interno</th><th>Tipo</th><th>Propósito</th></tr>
+    <tr><td>Tipo de Retención NI</td><td><code>customrecord_wh_tipo</code></td><td>Registro personalizado</td><td>Catálogo: nombre, tasa (%) y cuenta contable de cada retención</td></tr>
+    <tr><td>Tasa (%)</td><td><code>custrecord_wh_tasa</code></td><td>Campo del catálogo</td><td>Porcentaje a retener</td></tr>
+    <tr><td>Cuenta Contable</td><td><code>custrecord_wh_cuenta</code></td><td>Campo del catálogo</td><td>Cuenta de pasivo destino</td></tr>
+    <tr><td>Aplicar Retención</td><td><code>custbody_wh_aplica</code></td><td>Campo de transacción</td><td>Interruptor por transacción</td></tr>
+    <tr><td>Retención 1 / 2 / 3</td><td><code>custbody_wh_tipo1/2/3</code></td><td>Campos de transacción</td><td>Hasta 3 tipos combinables por operación</td></tr>
+    <tr><td>Retención Estimada</td><td><code>custbody_wh_preview</code></td><td>Campo de transacción</td><td>Monto calculado en vivo (solo lectura)</td></tr>
+    <tr><td>Subficha Retenciones</td><td><code>_retenciones</code></td><td>Subficha de transacción</td><td>Agrupa los campos en pestaña propia</td></tr>
+    <tr><td>UE - Retención sobre Anticipo NI</td><td><code>customscript_ue_wht_anticipo</code></td><td>User Event Script</td><td>Genera el Crédito de Factura de retención</td></tr>
+    <tr><td>CS - Retención sobre Anticipo NI</td><td><code>cs_retencion_anticipo.js</code></td><td>Client Script</td><td>Validación en pantalla y cálculo estimado</td></tr>
+  </table>
+
+  <h2><span class="n">1</span>Crear el catálogo de tipos de retención</h2>
+  <div class="card">
+    <span class="path">Configuración → Personalización → Tipos de registro → Nuevo</span>
+    <ol class="steps">
+      <li>Nombre: <code>Tipo de Retención NI</code> · ID: <code>_wh_tipo</code> → Guardar.</li>
+      <li>En la subficha <b>Campos</b>, crear: Etiqueta <code>Tasa (%)</code>, ID <code>_wh_tasa</code>, tipo <b>Número decimal</b>.</li>
+      <li>Crear el segundo campo: Etiqueta <code>Cuenta Contable</code>, ID <code>_wh_cuenta</code>, tipo <b>Lista/Registro → Cuenta</b>.</li>
+    </ol>
+    <div class="note"><b>Importante:</b> los IDs deben escribirse exactamente como se indica (NetSuite antepone <code>customrecord</code>/<code>custrecord</code>). El script busca estos IDs de forma literal.</div>
+  </div>
+
+  <h2><span class="n">2</span>Poblar el catálogo</h2>
+  <div class="card">
+    <p>Desde el tipo de registro, usar <b>Nuevo registro</b> y crear las cinco entradas vigentes:</p>
+    <table>
+      <tr><th>Nombre</th><th>Tasa (%)</th><th>Cuenta contable</th></tr>
+      <tr><td>IR 2% Bienes y Servicios</td><td>2</td><td>2200-10-001 · IR Bienes y Servicios</td></tr>
+      <tr><td>IR 3% Productos Agrícolas</td><td>3</td><td>2200-10-003 · IR Compras Agrícolas</td></tr>
+      <tr><td>IR 10% Serv. Prof. Nacionales</td><td>10</td><td>2200-10-002 · IR Servicios Profesionales</td></tr>
+      <tr><td>IR 12% Alquiler</td><td>12</td><td>2200-10-008 · IR Alquiler</td></tr>
+      <tr><td>Alcaldía 1%</td><td>1</td><td>2200-10-007 · Alcaldía</td></tr>
+    </table>
+    <div class="ok">El catálogo es <b>mantenible por Contabilidad sin tocar código</b>: agregar una nueva retención o cambiar una tasa es solo crear/editar un registro aquí.</div>
+  </div>
+
+  <h2><span class="n">3</span>Crear los campos de la transacción</h2>
+  <div class="card">
+    <span class="path">Configuración → Personalización → Campos de cuerpo de la transacción → Nuevo</span>
+    <table>
+      <tr><th>Etiqueta</th><th>ID</th><th>Tipo</th><th>Configuración adicional</th></tr>
+      <tr><td>Aplicar Retención</td><td><code>_wh_aplica</code></td><td>Casilla de verificación</td><td rowspan="3">Pestaña <b>Se aplica a</b>: marcar <b>PAGO ANTICIPADO AL PROVEEDOR</b></td></tr>
+      <tr><td>Retención 1 / 2 / 3</td><td><code>_wh_tipo1/2/3</code></td><td>Lista/Registro → Tipo de Retención NI</td></tr>
+      <tr><td>Retención Estimada</td><td><code>_wh_preview</code></td><td>Moneda</td></tr>
+    </table>
+    <div class="note"><b>Clave:</b> en "Retención Estimada", pestaña <b>Mostrar</b> → <b>Tipo de visualización = Deshabilitado</b>. El usuario lo ve pero no puede editarlo; solo el Client Script lo escribe.</div>
+  </div>
+
+  <h2><span class="n">4</span>Crear la subficha "Retenciones"</h2>
+  <div class="card">
+    <span class="path">Configuración → Personalización → Subfichas → pestaña Transacción</span>
+    <ol class="steps">
+      <li>Título: <code>Retenciones</code> · ID: <code>_retenciones</code> · Primario: <b>vacío</b> → Guardar.</li>
+      <li>Editar cada uno de los 5 campos del paso 3 → pestaña <b>Mostrar</b> → SUBFICHA = <code>Retenciones</code>.</li>
+      <li>Opcional: usar <b>Insertar antes</b> para ordenar: checkbox → Retención 1 → 2 → 3 → Estimada.</li>
+    </ol>
+  </div>
+
+  <h2><span class="n">5</span>Subir los archivos de script</h2>
+  <div class="card">
+    <span class="path">Documentos → Archivos → SuiteScripts → Añadir archivo</span>
+    <p>Subir los dos archivos de la carpeta <code>retenciones_scripts</code>:</p>
+    <ul>
+      <li><code>ue_retencion_anticipo_v4.js</code> — motor de servidor</li>
+      <li><code>cs_retencion_anticipo.js</code> — validación de pantalla</li>
+    </ul>
+  </div>
+
+  <h2><span class="n">6</span>Registrar y desplegar el User Event Script</h2>
+  <div class="card">
+    <span class="path">Configuración → Personalización → Secuencias de comando → Nuevo</span>
+    <ol class="steps">
+      <li>Seleccionar <code>ue_retencion_anticipo_v4.js</code> → <b>Crear registro de script</b> (NetSuite detecta "Evento del usuario").</li>
+      <li>Nombre: <code>UE - Retención sobre Anticipo NI</code> · ID: <code>_ue_wht_anticipo</code>.</li>
+      <li>Pestaña <b>Parámetros</b>, crear dos:
+        <ul>
+          <li><code>_wh_base_sin_iva</code> · Casilla de verificación · <i>Base sin IVA</i></li>
+          <li><code>_wh_tasa_iva</code> · Número decimal · <i>Tasa IVA</i> (vacío = 15)</li>
+        </ul>
+      </li>
+      <li>Guardar → <b>Desplegar script</b>: Se aplica a <b>Aplicación de pago anticipado al proveedor</b> · Estado <b>Pruebas</b> · Nivel de registro <b>Depurar</b>.</li>
+    </ol>
+    <h3>¿Qué hace este script?</h3>
+    <p>Se ejecuta en el servidor <b>después de guardar</b> la aplicación del anticipo (evento afterSubmit, solo en creación). Su flujo:</p>
+    <ol>
+      <li>Verifica que "Aplicar Retención" esté marcado y que exista al menos un tipo seleccionado; si no, termina sin hacer nada (queda constancia en el log).</li>
+      <li>Consulta el catálogo para obtener tasa y cuenta de cada tipo elegido.</li>
+      <li>Verifica que no exista ya un crédito para esta aplicación (anti-duplicado por <code>externalid</code> único <code>WHT_PREPAYAPP_&lt;id&gt;</code>).</li>
+      <li>Recorre las facturas aplicadas (sublista <code>bill</code>) y calcula la retención de cada tipo sobre el monto aplicado (opcionalmente sobre base sin IVA).</li>
+      <li>Crea <b>un Crédito de Factura</b> con una línea de gasto por tipo de retención —cada una contra su cuenta de pasivo— heredando fecha, moneda, subsidiaria y clasificación (departamento/clase/ubicación) de la aplicación o, en su defecto, de la factura.</li>
+      <li>Aplica el crédito a las mismas facturas y guarda. Si otro proceso creó el crédito en paralelo, NetSuite rechaza el duplicado y el script lo registra como evento controlado.</li>
+    </ol>
+  </div>
+
+  <h2><span class="n">7</span>Registrar y desplegar el Client Script</h2>
+  <div class="card">
+    <span class="path">Configuración → Personalización → Secuencias de comando → Nuevo</span>
+    <ol class="steps">
+      <li>Seleccionar <code>cs_retencion_anticipo.js</code> → <b>Crear registro de script</b> ("Secuencia de comandos de cliente").</li>
+      <li>Nombre: <code>CS - Retención sobre Anticipo NI</code> · ID: <code>_cs_wht_anticipo</code>. No requiere parámetros.</li>
+      <li><b>Desplegar</b>: Se aplica a <b>Aplicación de pago anticipado al proveedor</b> · Estado <b>Pruebas</b>.</li>
+    </ol>
+    <h3>¿Qué hace este script?</h3>
+    <p>Corre en el navegador mientras el usuario llena el formulario:</p>
+    <ul>
+      <li><b>Bloqueo preventivo:</b> los campos Retención 1/2/3 permanecen deshabilitados hasta marcar "Aplicar Retención"; al desmarcar, se limpian automáticamente.</li>
+      <li><b>Validación al guardar:</b> impide guardar si la casilla está marcada sin tipo seleccionado, o sin facturas aplicadas con monto — elimina transacciones incompletas o "en blanco".</li>
+      <li><b>Cálculo estimado en vivo:</b> actualiza "Retención Estimada" al instante cuando cambia el checkbox, los tipos o los montos aplicados, para que el usuario confirme el monto antes de guardar.</li>
+    </ul>
+    <div class="warn"><b>Sincronización:</b> si se activa el parámetro "Base sin IVA" en el User Event, debe cambiarse la constante <code>BASE_SIN_IVA = true</code> dentro de este archivo para que el estimado coincida con el cálculo final.</div>
+  </div>
+
+  <h2><span class="n">8</span>Pruebas de aceptación</h2>
+  <div class="card">
+    <ul class="check">
+      <li>Al abrir una aplicación nueva, los dropdowns aparecen deshabilitados; se habilitan al marcar la casilla.</li>
+      <li>Con C$2,000 aplicados e "IR 3%", la Retención Estimada muestra 60.00 en vivo.</li>
+      <li>Guardar con casilla marcada y sin tipo → mensaje de bloqueo (no guarda).</li>
+      <li>Al guardar correctamente, se genera el Crédito de Factura con una línea por tipo, cada una a su cuenta, aplicado a la(s) factura(s).</li>
+      <li>Editar y volver a guardar la misma aplicación → NO genera un segundo crédito (log: "Retención ya generada").</li>
+      <li>Aplicación sin casilla marcada → no genera nada (log: "Sin retención").</li>
+      <li>El reporte "CS - Auxiliar de Retenciones" refleja el crédito con su memo descriptivo.</li>
+    </ul>
+  </div>
+
+  <h2><span class="n">9</span>Publicación a usuarios</h2>
+  <div class="card">
+    <ol class="steps">
+      <li>En ambos despliegues (UE y CS): Estado <b>Pruebas → Publicado</b>.</li>
+      <li>Definir la <b>Audiencia</b>: roles/empleados que registran aplicaciones de anticipos.</li>
+      <li>Cambiar Nivel de registro del UE a <b>Auditoría</b> (evita saturar el log con mensajes de depuración).</li>
+      <li>Para migrar de Sandbox a Producción: replicar esta guía manualmente o empaquetar los componentes con SuiteCloud Development Framework (SDF) / Copiar a cuenta.</li>
+    </ol>
+    <div class="note"><b>Recordatorio operativo:</b> en estado "Pruebas" los scripts solo se ejecutan para su propietario. Ningún otro usuario verá el comportamiento hasta publicar.</div>
+  </div>
+
+</main>
+<footer><b>Opportunity International Nicaragua</b> · Gerencia de Finanzas · Módulo de Retenciones sobre Anticipos · Documento de implementación — Julio 2026</footer>
+</body>
+</html>

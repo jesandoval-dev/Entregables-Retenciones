@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Informe Ejecutivo — Automatización de Retenciones sobre Anticipos | Opportunity International Nicaragua</title>
+<style>
+  :root{
+    --oi-teal:#00A7A5; --oi-teal-dark:#00807E; --oi-magenta:#E5087E; --oi-orange:#F58220;
+    --oi-purple:#3A2A50; --ink:#2B2740; --ink-soft:#5C5873; --line:#E4E2EC; --bg:#FBFBFD;
+    --teal-tint:#E6F6F6; --magenta-tint:#FDE9F3; --orange-tint:#FEF1E3;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Open Sans","Segoe UI",-apple-system,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.65;font-size:15.5px}
+  .brandbar{height:6px;background:linear-gradient(90deg,var(--oi-orange) 0%,var(--oi-orange) 25%,var(--oi-magenta) 25%,var(--oi-magenta) 60%,var(--oi-teal) 60%,var(--oi-teal) 100%)}
+  header{background:var(--oi-purple);color:#fff;padding:50px 9%}
+  header .doc-tag{display:inline-block;background:var(--oi-orange);color:#fff;font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:18px}
+  header h1{font-size:32px;font-weight:700;line-height:1.25;max-width:840px}
+  header p.sub{margin-top:14px;color:#CFC8DE;font-size:16px;max-width:760px}
+  header .meta{margin-top:28px;display:flex;flex-wrap:wrap;gap:36px;font-size:13px;color:#B9B0CC}
+  header .meta b{display:block;color:#fff;font-size:14px;font-weight:600}
+  main{padding:52px 9% 72px;max-width:1080px;margin:0 auto}
+  h2{color:var(--oi-purple);font-size:20px;margin:46px 0 12px}
+  h2:first-of-type{margin-top:0}
+  p{margin:11px 0}
+  .lead{font-size:17px;color:var(--ink-soft)}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin:26px 0}
+  .kpi{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;text-align:center;box-shadow:0 1px 3px rgba(58,42,80,.06)}
+  .kpi .v{font-size:30px;font-weight:800;color:var(--oi-magenta)}
+  .kpi:nth-child(2) .v{color:var(--oi-teal-dark)}
+  .kpi:nth-child(3) .v{color:var(--oi-orange)}
+  .kpi:nth-child(4) .v{color:var(--oi-purple)}
+  .kpi .l{font-size:13px;color:var(--ink-soft);margin-top:6px;line-height:1.45}
+  .flow{display:flex;flex-wrap:wrap;align-items:stretch;margin:20px 0}
+  .flow .box{background:#fff;border:2px solid var(--oi-teal);border-radius:12px;padding:16px 18px;flex:1;min-width:180px;text-align:center;font-size:14px}
+  .flow .box b{display:block;color:var(--oi-purple);margin-bottom:5px}
+  .flow .arr{display:flex;align-items:center;padding:0 12px;color:var(--oi-magenta);font-size:24px;font-weight:800}
+  .benefits{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin:20px 0}
+  .b-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;box-shadow:0 1px 3px rgba(58,42,80,.05);border-top:5px solid var(--oi-teal)}
+  .b-card:nth-child(2){border-top-color:var(--oi-magenta)}
+  .b-card:nth-child(3){border-top-color:var(--oi-orange)}
+  .b-card:nth-child(4){border-top-color:var(--oi-purple)}
+  .b-card b{color:var(--oi-purple);display:block;font-size:15.5px;margin-bottom:7px}
+  .b-card p{font-size:14px;color:var(--ink-soft);margin:0}
+  table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(58,42,80,.06)}
+  th{background:var(--oi-purple);color:#fff;text-align:left;padding:11px 14px;font-weight:600;font-size:13px}
+  td{padding:10px 14px;border-bottom:1px solid var(--line)}
+  tr:last-child td{border-bottom:none}
+  .quote{border-left:4px solid var(--oi-magenta);background:var(--magenta-tint);padding:18px 22px;border-radius:0 12px 12px 0;margin:22px 0;font-size:15.5px;font-style:italic;color:var(--oi-purple)}
+  .quote span{display:block;font-style:normal;font-size:13px;color:var(--ink-soft);margin-top:8px}
+  .next li{list-style:none;position:relative;padding:12px 16px 12px 52px;background:#fff;border:1px solid var(--line);border-radius:10px;margin:10px 0;counter-increment:nx}
+  ol.next{counter-reset:nx;margin:14px 0;padding:0}
+  .next li::before{content:counter(nx);position:absolute;left:14px;top:12px;background:var(--oi-orange);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+  .status{display:inline-block;background:var(--teal-tint);color:var(--oi-teal-dark);font-weight:700;font-size:13px;padding:6px 16px;border-radius:20px}
+  footer{background:var(--oi-purple);color:#B9B0CC;text-align:center;padding:26px;font-size:12.5px;margin-top:44px}
+  footer b{color:#fff}
+  @media print{ header{padding:30px 7%} main{padding:26px 7%} .kpi,.b-card,table{box-shadow:none} h2{page-break-after:avoid} }
+</style>
+</head>
+<body>
+<div class="brandbar"></div>
+<header>
+  <span class="doc-tag">Entregable 3 · Informe Ejecutivo — Junta Directiva</span>
+  <h1>Automatización de Retenciones Fiscales sobre Anticipos a Proveedores</h1>
+  <p class="sub">Cierre de una brecha de cumplimiento tributario en NetSuite mediante desarrollo propio, sin costos de licenciamiento adicional y sin impacto en el maestro de proveedores.</p>
+  <div class="meta">
+    <div><b>Opportunity International Nicaragua</b>Organización</div>
+    <div><b>Gerencia de Finanzas</b>Área responsable</div>
+    <div><b>Julio 2026</b>Fecha</div>
+    <div><b><span style="color:#7FDAD8">Probado en Sandbox — listo para piloto</span></b>Estado</div>
+  </div>
+</header>
+<main>
+
+  <h2>El problema</h2>
+  <p class="lead">La ley nicaragüense obliga a retener impuestos (IR y Alcaldía) en cada pago a proveedores. Nuestro ERP lo hace automáticamente en los pagos de facturas, pero <b>no en los pagos anticipados</b> — un mecanismo que la organización utiliza intensivamente con productores agrícolas. Esa porción de los pagos dependía de registros manuales: riesgo de omisión, error de cálculo y exposición ante la administración tributaria.</p>
+
+  <h2>La solución</h2>
+  <p>Se desarrolló un módulo dentro de NetSuite que genera la retención de forma <b>automática, correcta y auditable</b> en el momento exacto en que un anticipo se aplica a una factura. El usuario únicamente marca una casilla y selecciona el tipo de retención de un catálogo controlado por Contabilidad; el sistema calcula, contabiliza y aplica el documento de retención sin intervención adicional.</p>
+  <div class="flow">
+    <div class="box"><b>1 · Usuario</b>Marca "Aplicar Retención" y elige el tipo (el sistema muestra el monto estimado al instante)</div>
+    <div class="arr">→</div>
+    <div class="box"><b>2 · Sistema</b>Genera el documento de retención con el cálculo exacto y la cuenta contable correcta</div>
+    <div class="arr">→</div>
+    <div class="box"><b>3 · Cumplimiento</b>La retención queda aplicada a la factura e integrada al Auxiliar de Retenciones para la declaración</div>
+  </div>
+  <div class="quote">"A las retenciones les aplicamos parcial en la aplicación del anticipo y el complemento en el pago de la factura."<span>Criterio de la Jefatura de Contabilidad — implementado íntegramente: la retención del anticipo la genera el nuevo módulo y la del saldo el motor estándar del ERP. Juntas cubren el 100% de la factura.</span></div>
+
+  <h2>Resultados de la validación</h2>
+  <div class="kpis">
+    <div class="kpi"><div class="v">8/8</div><div class="l">Casos de prueba superados en Sandbox</div></div>
+    <div class="kpi"><div class="v">100%</div><div class="l">Coincidencia entre monto estimado en pantalla y documento emitido</div></div>
+    <div class="kpi"><div class="v">5</div><div class="l">Tipos de retención configurados (IR 2%, 3%, 10%, 12% y Alcaldía 1%)</div></div>
+    <div class="kpi"><div class="v">C$0</div><div class="l">Inversión en licencias o consultoría externa</div></div>
+  </div>
+
+  <h2>Beneficios y controles</h2>
+  <div class="benefits">
+    <div class="b-card"><b>Cumplimiento tributario completo</b><p>Se elimina la brecha: toda porción pagada de una factura —por anticipo o por pago directo— genera su retención en el momento en que se causa fiscalmente.</p></div>
+    <div class="b-card"><b>Integridad de registros</b><p>Triple barrera contra duplicados (incluso con varios usuarios simultáneos), documentos inmutables tras su emisión, y validaciones que impiden guardar transacciones incompletas o en blanco.</p></div>
+    <div class="b-card"><b>Trazabilidad para auditoría</b><p>Cada retención referencia el anticipo que la originó, queda registrada en la bitácora del sistema y se integra automáticamente al Auxiliar de Retenciones usado para las declaraciones.</p></div>
+    <div class="b-card"><b>Sostenibilidad operativa</b><p>Las tasas y cuentas viven en un catálogo que Contabilidad administra sin depender de TI. No se modificó ninguno del millón de registros de proveedores.</p></div>
+  </div>
+
+  <h2>Estado actual y próximos pasos</h2>
+  <p><span class="status">✓ Desarrollo y pruebas completados en ambiente Sandbox</span></p>
+  <ol class="next">
+    <li><b>Definición contable:</b> confirmar la base de cálculo (monto bruto vs. monto sin IVA) — el módulo ya soporta ambas; es un interruptor de configuración.</li>
+    <li><b>Piloto controlado:</b> habilitar el módulo a un grupo reducido de usuarios de Finanzas en Sandbox y validar el flujo completo de un ciclo de declaración.</li>
+    <li><b>Puesta en producción:</b> migrar la configuración al ambiente productivo y publicar a los roles autorizados, acompañado del instructivo de uso y del procedimiento de corrección documentado.</li>
+  </ol>
+
+  <h2>Documentación de soporte</h2>
+  <table>
+    <tr><th>Documento</th><th>Audiencia</th><th>Contenido</th></tr>
+    <tr><td>Entregable 1 · Guía de Implementación</td><td>TI / Administrador NetSuite</td><td>Paso a paso para replicar el módulo y descripción funcional de cada script</td></tr>
+    <tr><td>Entregable 2 · Informe Técnico Detallado</td><td>Finanzas / Auditoría / TI</td><td>Arquitectura, controles de integridad, evidencia de pruebas y procedimientos</td></tr>
+    <tr><td>Carpeta <b>retenciones_scripts</b></td><td>TI</td><td>Código fuente de los dos scripts con su documentación</td></tr>
+  </table>
+
+</main>
+<footer><b>Opportunity International Nicaragua</b> · Gerencia de Finanzas · Informe Ejecutivo — Automatización de Retenciones sobre Anticipos · Julio 2026</footer>
+</body>
+</html>
